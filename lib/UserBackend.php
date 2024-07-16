@@ -87,6 +87,10 @@ class UserBackend implements \OCP\IUserBackend, \OCP\UserInterface
         }
 
         if (password_verify($providedPassword, $retrievedPasswordHash)) {
+            if ($this->config->forceLowercaseLogin()) {
+                $providedUsername = strtolower($providedUsername);
+            }
+
             return $providedUsername;
         } else {
             return false;
