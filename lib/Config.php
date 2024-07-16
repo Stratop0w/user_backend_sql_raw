@@ -35,6 +35,7 @@ class Config
     const CONFIG_KEY_DB_PASSWORD = 'db_password';
     const CONFIG_KEY_DB_PASSWORD_FILE = 'db_password_file';
     const CONFIG_KEY_HASH_ALGORITHM_FOR_NEW_PASSWORDS = 'hash_algorithm_for_new_passwords';
+    const CONFIG_KEY_FORCE_LOWERCASE_LOGIN = 'force_lowercase_login';
 
     const CONFIG_KEY_QUERIES = 'queries';
     const CONFIG_KEY_GET_PASSWORD_HASH_FOR_USER = 'get_password_hash_for_user';
@@ -337,6 +338,12 @@ class Config
     private function normalize($string)
     {
         return strtolower(preg_replace("/[-_]/", "", $string));
+    }
+
+    // Nextcloud usualy don't use case sensitive login, so here is the option to keep
+    // standard behavior
+    public function forceLowercaseLogin() : bool {
+        return $this->getConfigValueOrFalse(self::CONFIG_KEY_FORCE_LOWERCASE_LOGIN) !== false;
     }
 
 }
