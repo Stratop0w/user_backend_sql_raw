@@ -62,10 +62,11 @@ This app has no user interface. All configuration is done via Nextcloud's system
        //'create_user' => 'INSERT INTO users (local, domain, password_hash) VALUES (split_part(:username, \'@\', 1), split_part(:username, \'@\', 2), :password_hash)',
   ),
  //'hash_algorithm_for_new_passwords' => 'bcrypt',
+ //'force_lowercase_login' => true,
  ),
  ```
 
-There are three types of configuration parameters:
+There are four types of configuration parameters:
 
 ### 1. Database
 
@@ -166,6 +167,17 @@ The config values are `md5`, `sha256`, `sha512`, `argon2i`, `argon2id` respectiv
   * This means, that your db can have different hash formats simultaneously. Whenever a
     user's password is changed, it will be updated to the configured hash algorithm. This eases
      migration to more modern algorithms.
+
+### 4. Optional features
+
+
+##### `force_lowercase_login`
+
+Default behavior of Nextcloud instance with internal user database is to apply submitted login information to lower case, so usernames are case insensitive.
+
+By design, this extention by default will transmit submitted usernames to Nextcloud once authenticated without lowercasing.
+
+If you want to keep default Nextcloud behavior, enable option `force_lowercase_login` and set it's value to `true`.
 
 ## Security
 
