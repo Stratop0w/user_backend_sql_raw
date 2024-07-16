@@ -35,6 +35,7 @@ class Config
     const CONFIG_KEY_DB_PASSWORD = 'db_password';
     const CONFIG_KEY_DB_PASSWORD_FILE = 'db_password_file';
     const CONFIG_KEY_HASH_ALGORITHM_FOR_NEW_PASSWORDS = 'hash_algorithm_for_new_passwords';
+    const CONFIG_KEY_STRIP_LOGIN_REALM = 'strip_login_realm';
 
     const CONFIG_KEY_QUERIES = 'queries';
     const CONFIG_KEY_GET_PASSWORD_HASH_FOR_USER = 'get_password_hash_for_user';
@@ -338,5 +339,14 @@ class Config
     {
         return strtolower(preg_replace("/[-_]/", "", $string));
     }
+
+    // option to strip @realm part of provided username. Usefull for instances dealing with
+    // multiple domains where one domain should be the 'default' or 'implicit' domain.
+    // This allows to make login 'foo_user@default_domain.ext' identical to 'foo_user'
+    public function stripLoginRealm() {
+        // return $this->getConfigValueOrDefaultValue(self::CONFIG_KEY_STRIP_LOGIN_REALM, '');
+        return $this->getConfigValueOrFalse(self::CONFIG_KEY_STRIP_LOGIN_REALM);
+    }
+
 
 }

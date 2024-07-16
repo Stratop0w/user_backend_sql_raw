@@ -87,6 +87,15 @@ class UserBackend implements \OCP\IUserBackend, \OCP\UserInterface
         }
 
         if (password_verify($providedPassword, $retrievedPasswordHash)) {
+            $strip_realm = $this->config->stripLoginRealm();
+            if ($strip_realm) {
+                $strip_realm = str_replace('.', '\\.', $strip_realm);
+                if (substr($strip_realm, 0, 1) != '@') {
+                    $strip_realm = "@$strip_realm";
+                }
+                $providedUsername = preg_replace("/$strip_realm$/", '', $providedUsername);
+            }
+
             return $providedUsername;
         } else {
             return false;
