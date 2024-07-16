@@ -62,10 +62,11 @@ This app has no user interface. All configuration is done via Nextcloud's system
        //'create_user' => 'INSERT INTO users (local, domain, password_hash) VALUES (split_part(:username, \'@\', 1), split_part(:username, \'@\', 2), :password_hash)',
   ),
  //'hash_algorithm_for_new_passwords' => 'bcrypt',
- ),
+ //'strip_login_realm' => 'example.com',
+),
  ```
 
-There are three types of configuration parameters:
+There are four types of configuration parameters:
 
 ### 1. Database
 
@@ -166,6 +167,17 @@ The config values are `md5`, `sha256`, `sha512`, `argon2i`, `argon2id` respectiv
   * This means, that your db can have different hash formats simultaneously. Whenever a
     user's password is changed, it will be updated to the configured hash algorithm. This eases
      migration to more modern algorithms.
+
+### 4. Optional features
+
+
+##### `strip_login_realm`
+
+If your Nextcloud instance uses many domains/realms for your users and you implemented a feature of allowing users of one domain/realm to log with or without the @domain part, then you can use this configuration parameter to set the default realm to use.
+
+If set, the string will be removed from the username used as login user, but only if it is at the end of the string.
+
+You can set it with or without the '@' sign, it will be automaticaly added if needed.
 
 ## Security
 
